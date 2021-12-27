@@ -41,6 +41,8 @@ private:
     void vytvorSpojenie();
     bool pripojenieDoHry();
     void uvod();
+    void odosliSpravu(string sprava);
+    char* primiSpravu();
 public:
     Application();
 };

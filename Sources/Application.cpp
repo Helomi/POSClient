@@ -47,23 +47,10 @@ void Application::vytvorSpojenie() {
 
 void Application::zadajMeno() {
     printf("Zadaj meno uživateľa: ");
-    bzero(buffer,256);
-    fgets(buffer, 255, stdin);
-
-    n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0)
-    {
-        perror("Error writing to socket");
-        exit(0);
-    }
-
-    bzero(buffer,256);
-    n = read(sockfd, buffer, 255);
-    if (n < 0)
-    {
-        perror("Error reading from socket");
-        exit(0);
-    }
+    string meno;
+    getline(cin, meno);
+    odosliSpravu(meno);
+    strcpy(buffer, primiSpravu());
     printf("%s\n",buffer);
 }
 
@@ -74,22 +61,8 @@ void Application::ukonciAplikaciu() {
 }
 
 void Application::zalozHru() {
-    bzero(buffer,256);
-    strcpy(buffer, menu->vytvorenieLobby().c_str());
-    //fgets(buffer, 255, stdin);
-    n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0)
-    {
-        perror("Error writing to socket");
-        exit(0);
-    }
-    bzero(buffer,256);
-    n = read(sockfd, buffer, 255);
-    if (n < 0)
-    {
-        perror("Error reading from socket");
-        exit(0);
-    }
+    odosliSpravu(menu->vytvorenieLobby());
+    strcpy(buffer, primiSpravu());
     cout << buffer << "\n";
 }
 
@@ -97,24 +70,9 @@ bool Application::pripojenieDoHry() {
     list<string> zoznamLobby;
     bzero(buffer,256);
     Utilities utilities;
-
-
-
-
     string pomocna = "DZL"; //DZL = Daj zoznam lobby
-    strcpy(buffer, pomocna.c_str());
-    n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0)
-    {
-        perror("Error writing to socket");
-        exit(0);
-    }
-    bzero(buffer, 256);
-    n = read(sockfd, buffer, 255);
-    if (n < 0) {
-        perror("Error reading from socket");
-        exit(0);
-    }
+    odosliSpravu(pomocna);
+    strcpy(buffer, primiSpravu());
     while (buffer) {
         pomocna = buffer;
         stringstream check1(pomocna);
@@ -130,19 +88,8 @@ bool Application::pripojenieDoHry() {
             break;
         }
         string pomocna = "OK"; //DZL = Daj zoznam lobby
-        strcpy(buffer, pomocna.c_str());
-        n = write(sockfd, buffer, strlen(buffer));
-        if (n < 0)
-        {
-            perror("Error writing to socket");
-            exit(0);
-        }
-        bzero(buffer, 256);
-        n = read(sockfd, buffer, 255);
-        if (n < 0) {
-            perror("Error reading from socket");
-            exit(0);
-        }
+        odosliSpravu(pomocna);
+        strcpy(buffer, primiSpravu());
     }
 
 
@@ -167,25 +114,11 @@ bool Application::pripojenieDoHry() {
     int vyber = utilities.zadajCislo(1,zoznamLobby.size()+1);
     if (vyber == zoznamLobby.size()+1) {
         pomocna = "JOI|" + to_string(0);
-
-        strcpy(buffer, pomocna.c_str());
-        n = write(sockfd, buffer, strlen(buffer));
-        if (n < 0)
-        {
-            perror("Error writing to socket");
-            exit(0);
-        }
+        odosliSpravu(pomocna);
         return false;
     }
     pomocna = "JOI|" + to_string(vyber);
-
-    strcpy(buffer, pomocna.c_str());
-    n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0)
-    {
-        perror("Error writing to socket");
-        exit(0);
-    }
+    odosliSpravu(pomocna);
     return true;
 }
 
@@ -196,14 +129,7 @@ void Application::uvod() {
             zalozHru();
             cout << "Čakáš na pripojenie 2. hráča\n";
             //TODO rozdroliť
-            bzero(buffer,256);
-            n = read(sockfd, buffer, 255);
-            if (n < 0)
-            {
-                perror("Error reading from socket");
-                exit(0);
-            }
-
+            strcpy(buffer, primiSpravu());
             break;
         case 2:
             if (!pripojenieDoHry()) {
@@ -214,4 +140,26 @@ void Application::uvod() {
             ukonciAplikaciu();
             break;
     }
+}
+
+void Application::odosliSpravu(string sprava) {
+    bzero(buffer,256);
+    strcpy(buffer, sprava.c_str());
+    n = write(sockfd, buffer, strlen(buffer));
+    if (n < 0)
+    {
+        perror("Error writing to socket");
+        exit(0);
+    }
+}
+
+char* Application::primiSpravu() {
+    bzero(buffer,256);
+    n = read(sockfd, buffer, 255);
+    if (n < 0)
+    {
+        perror("Error reading from socket");
+        exit(0);
+    }
+    return buffer;
 }
