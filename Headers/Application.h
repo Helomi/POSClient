@@ -3,7 +3,6 @@
 //
 
 #ifndef SEMESTRALKACLIENT_APPLICATION_H
-
 #define SEMESTRALKACLIENT_APPLICATION_H
 
 #include <iostream>
@@ -12,9 +11,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <unistd.h>
 #include <list>
 #include <bits/stdc++.h>
@@ -34,8 +33,10 @@ private:
     struct sockaddr_in serv_addr;
     struct hostent* server;
     char buffer[256];
+    int velkostMapy;
+    char** mapa;
 
-    void zalozHru();
+    bool zalozHru();
     void ukonciAplikaciu();
     void zadajMeno();
     void vytvorSpojenie();
@@ -43,6 +44,9 @@ private:
     void uvod();
     void odosliSpravu(string sprava);
     char* primiSpravu();
+    void zacniHru();
+    void vykresliPlochu();
+    bool urobTah();
 public:
     Application();
 };
