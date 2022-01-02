@@ -22,6 +22,7 @@ int Vypisy::vypisMenu() {
 }
 
 
+
 string Vypisy::ziskanieIP() {
     system("clear");
     string ip;
@@ -50,5 +51,17 @@ string Vypisy::vytvorenieLobby() {
     cout << "1. 3x3\n";
     cout << "2. 5x5\n";
     cout << "3. 7x7\n";
-    return "CRT|" + navrat + "|" + to_string(utilities.zadajCislo(1,3));
+    int vyber;
+    switch (utilities.zadajCislo(1,3)) {
+        case 1:
+            vyber = 3;
+            break;
+        case 2:
+            vyber = 5;
+            break;
+        case 3:
+            vyber = 7;
+            break;
+    }
+    return "CRT|" + navrat + "|" + to_string(vyber);
 }

@@ -11,11 +11,14 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0229b1b7-f2c5-4d4f-ba38-bad9a75d929b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="0229b1b7-f2c5-4d4f-ba38-bad9a75d929b" name="Changes" comment="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky">
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Headers/Application.h" beforeDir="false" afterPath="$PROJECT_DIR$/Headers/Application.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Application.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Application.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Vypisy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Vypisy.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="refactor" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,10 +57,15 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
-    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -65,19 +73,14 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SemestralkaClient" type="CMakeRunConfiguration" factoryName="Application" singleton="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SemestralkaClient" TARGET_NAME="SemestralkaClient" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SemestralkaClient" RUN_TARGET_NAME="SemestralkaClient">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -94,8 +97,35 @@
       <workItem from="1640520665741" duration="11449000" />
       <workItem from="1640547510832" duration="947000" />
       <workItem from="1640550039786" duration="138000" />
-      <workItem from="1640613572583" duration="8731000" />
+      <workItem from="1640613572583" duration="9146000" />
+      <workItem from="1640643645170" duration="2173000" />
+      <workItem from="1640697992601" duration="301000" />
+      <workItem from="1640760673731" duration="997000" />
+      <workItem from="1640776407700" duration="106000" />
+      <workItem from="1640776764691" duration="120000" />
+      <workItem from="1640777859836" duration="3948000" />
+      <workItem from="1640874941542" duration="73000" />
+      <workItem from="1640875712986" duration="347000" />
+      <workItem from="1640954685828" duration="5439000" />
+      <workItem from="1640975889208" duration="8816000" />
+      <workItem from="1641032204043" duration="19653000" />
+      <workItem from="1641126437150" duration="4733000" />
     </task>
+    <task id="LOCAL-00001" summary="V 0.1.1 Refactoring&#10;[#] Vyčistenie kódu od duplicít">
+      <created>1640626515183</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1640626515183</updated>
+    </task>
+    <task id="LOCAL-00002" summary="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky">
+      <created>1641134355369</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1641134355369</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,10 +136,29 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Update" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <MESSAGE value="V 0.1.1 Refactoring&#10;[#] Vyčistenie kódu od duplicít" />
+    <MESSAGE value="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky" />
+    <option name="LAST_COMMIT_MESSAGE" value="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky" />
   </component>
 </project>
