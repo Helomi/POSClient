@@ -278,7 +278,20 @@ bool Application::urobTah() {
     } else if (pomocna2.compare("WIN") == 0) {
         cout << "Vyhral si EZCLAP\n";
         return false;
+    } else if (pomocna2.compare("DRW") == 0) {
+        cout << "Remíza.. došli vám políčka borci :D\n";
+        return false;
+    } else if (pomocna2.compare("DRWU") == 0) {
+        getline(check1, pomocna2, '|');
+        x = stoi(pomocna2);
+        getline(check1, pomocna2, '|');
+        y = stoi(pomocna2);
+        mapa[y][x] = 'X';
+        vykresliPlochu();
+        cout << "Remíza.. došli vám políčka borci :D\n";
+        return false;
     }
+
     return true;
 }
 
