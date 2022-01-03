@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <cstdio>
+#include <termios.h>
 #include <cstdlib>
 #include <cstring>
 #include <unistd.h>
@@ -49,6 +50,7 @@ private:
     bool urobTah();
 public:
     Application();
+    ~Application();
 };
 
 

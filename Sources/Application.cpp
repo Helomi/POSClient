@@ -4,7 +4,6 @@
 
 #include "../Headers/Application.h"
 
-
 Application::Application() {
     vytvorSpojenie();
     zadajMeno();
@@ -19,7 +18,7 @@ void Application::vytvorSpojenie() {
     if (server == NULL)
     {
         fprintf(stderr, "Error, no such host\n");
-        exit(0);
+        //exit(0);
     }
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
@@ -36,13 +35,13 @@ void Application::vytvorSpojenie() {
 
     {
         perror("Error creating socket");
-        exit(0);
+        //exit(0);
     }
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
     {
         perror("Error connecting to socket");
-        exit(0);
+        //exit(0);
     }
 }
 
@@ -61,15 +60,12 @@ void Application::zadajMeno() {
 }
 
 void Application::ukonciAplikaciu() {
-    delete menu;
     close(sockfd);
-    exit(0);
 }
 
 bool Application::zalozHru() {
     odosliSpravu(menu->vytvorenieLobby());
-    strcpy(buffer, primiSpravu());
-    string pomocna = buffer;
+    string pomocna = primiSpravu();
     if (pomocna.compare("OK") == 0)
     {
         cout << "Server bol úspešne vytvorený\n";
@@ -85,7 +81,7 @@ bool Application::pripojenieDoHry() {
     Utilities utilities;
     string pomocna = "DZL"; //DZL = Daj zoznam lobby
     odosliSpravu(pomocna);
-    strcpy(buffer, primiSpravu());
+    primiSpravu();
     while (buffer) {
         pomocna = buffer;
         stringstream check1(pomocna);
@@ -102,7 +98,7 @@ bool Application::pripojenieDoHry() {
         }
         string pomocna = "OK";
         odosliSpravu(pomocna);
-        strcpy(buffer, primiSpravu());
+        primiSpravu();
     }
 
 
@@ -166,7 +162,7 @@ void Application::odosliSpravu(string sprava) {
     if (n < 0)
     {
         perror("Error writing to socket");
-        exit(0);
+        //exit(0);
     }
 }
 
@@ -176,7 +172,7 @@ char* Application::primiSpravu() {
     if (n < 0)
     {
         perror("Error reading from socket");
-        exit(0);
+        //exit(0);
     }
     return buffer;
 }
@@ -247,6 +243,7 @@ bool Application::urobTah() {
     cout << "Dostal som správu " << pomocna << "\n";
     getline(check1, pomocna2, '|');
     if (pomocna2.compare("DTN") == 0) {
+        tcflush(0,TCIFLUSH);
         cout << "Zadaj X-ovú os:\n";
         x = utilities.zadajCislo(0, velkostMapy-1);
         cout << "Zadaj Y-ovú os:\n";
@@ -255,6 +252,7 @@ bool Application::urobTah() {
         mapa[y][x] = 'O';
     } else if (pomocna2.compare("DTU") == 0)
     {
+        tcflush(0,TCIFLUSH);
         getline(check1, pomocna2, '|');
         x = stoi(pomocna2);
         getline(check1, pomocna2, '|');
@@ -282,5 +280,13 @@ bool Application::urobTah() {
         return false;
     }
     return true;
+}
+
+Application::~Application() {
+    for (int i = 0; i < velkostMapy; ++i) {
+        delete[] mapa[i];
+    }
+    delete[] mapa;
+    delete menu;
 }
 
