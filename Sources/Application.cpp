@@ -8,7 +8,6 @@ Application::Application() {
     vytvorSpojenie();
     zadajMeno();
     uvod();
-    zacniHru();
 }
 
 void Application::vytvorSpojenie() {
@@ -61,6 +60,7 @@ void Application::zadajMeno() {
 
 void Application::ukonciAplikaciu() {
     close(sockfd);
+    exit(0);
 }
 
 bool Application::zalozHru() {
@@ -96,8 +96,6 @@ bool Application::pripojenieDoHry() {
         if (pomocna2.compare("END") == 0) {
             break;
         }
-        string pomocna = "OK";
-        odosliSpravu(pomocna);
         primiSpravu();
     }
 
@@ -107,16 +105,22 @@ bool Application::pripojenieDoHry() {
     cout << "#   VYPIS LOBBY   #\n";
     cout << "###################\n";
     if (zoznamLobby.size() == 0) {
-        cout << "Nie je založená žiadna lobby";
+        cout << "Nie je založená žiadna lobby!\n";
+        sleep(1);
         return false;
     } else {
         list <string> :: iterator lobby;
         int i = 1;
         for (lobby = zoznamLobby.begin(); lobby != zoznamLobby.end(); lobby++)
         {
-            cout << i << ". " << *lobby << "\n";
+            if (lobby->find("#") != std::string::npos) {
+                cout << i << ". " << *lobby << " | Status: Hra prebieha\n";
+            } else {
+                cout << i << ". " << *lobby << " | Status: Čakám na protihráča\n";
+            }
             i++;
         }
+        cout << "\n";
         cout << i << ". Návrat do hlavného menu\n";
     }
     cout << "Vyber si lobby kam sa chceš pripojiť.\n";
@@ -138,6 +142,7 @@ void Application::uvod() {
         case 1:
             if (zalozHru()) {
                 cout << "Čakáš na pripojenie 2. hráča\n";
+                zacniHru();
             } else {
                 cout << "Server sa nepodarilo vytvoriť!\n";
                 sleep(2);
@@ -147,6 +152,8 @@ void Application::uvod() {
         case 2:
             if (!pripojenieDoHry()) {
                 uvod();
+            } else {
+                zacniHru();
             }
             break;
         case 3:
@@ -198,6 +205,10 @@ void Application::zacniHru() {
         {
             vykresliPlochu();
         }
+    } else if (pomocna2.compare("NO") == 0) {
+        cout << "Server ťa odmietnul pripojiť k tejto lobby\n";
+        sleep(2);
+        uvod();
     } else {
         cout << "Dostal som nejakú neznámu správu???" << pomocna << "\n";
     }
@@ -290,8 +301,13 @@ bool Application::urobTah() {
         vykresliPlochu();
         cout << "Remíza.. došli vám políčka borci :D\n";
         return false;
+    } else if (pomocna2.compare("QUT") == 0) {
+        cout << "Server stratil spojenie so súperom :/\nHra sa preto ukončí\n";
+        return false;
+    } else {
+        cout << "Nastala neočakávaná chyba!\nHra sa ukončí\n";
+        return false;
     }
-
     return true;
 }
 
