@@ -255,10 +255,17 @@ bool Application::urobTah() {
     getline(check1, pomocna2, '|');
     if (pomocna2.compare("DTN") == 0) {
         tcflush(0,TCIFLUSH);
-        cout << "Zadaj X-ovú os:\n";
-        x = utilities.zadajCislo(0, velkostMapy-1);
-        cout << "Zadaj Y-ovú os:\n";
-        y = utilities.zadajCislo(0, velkostMapy-1);
+        while(true) {
+            cout << "Zadaj X-ovú os:\n";
+            x = utilities.zadajCislo(0, velkostMapy-1);
+            cout << "Zadaj Y-ovú os:\n";
+            y = utilities.zadajCislo(0, velkostMapy-1);
+            if (kontrolaTahu(x, y)) {
+                break;
+            } else {
+                cout << "Toto políčko už je obsadené skús to ešte raz.\n";
+            }
+        }
         odosliSpravu("UPD|" + to_string(x) + "|" + to_string(y));
         mapa[y][x] = 'O';
     } else if (pomocna2.compare("DTU") == 0)
@@ -271,10 +278,17 @@ bool Application::urobTah() {
         mapa[y][x] = 'X';
         vykresliPlochu();
         cout << "Dostal som správu " << pomocna << "\n";
-        cout << "Zadaj X-ovú os:\n";
-        x = utilities.zadajCislo(0, velkostMapy-1);
-        cout << "Zadaj Y-ovú os:\n";
-        y = utilities.zadajCislo(0, velkostMapy-1);
+        while(true) {
+            cout << "Zadaj X-ovú os:\n";
+            x = utilities.zadajCislo(0, velkostMapy-1);
+            cout << "Zadaj Y-ovú os:\n";
+            y = utilities.zadajCislo(0, velkostMapy-1);
+            if (kontrolaTahu(x, y)) {
+                break;
+            } else {
+                cout << "Toto políčko už je obsadené skús to ešte raz.\n";
+            }
+        }
         mapa[y][x] = 'O';
         odosliSpravu("UPD|" + to_string(x) + "|" + to_string(y));
     } else if (pomocna2.compare("LOS") == 0) {
@@ -317,5 +331,12 @@ Application::~Application() {
     }
     delete[] mapa;
     delete menu;
+}
+
+bool Application::kontrolaTahu(int x, int y) {
+    if (mapa[y][x] == ' ') {
+        return true;
+    }
+    return false;
 }
 

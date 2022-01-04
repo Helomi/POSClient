@@ -48,6 +48,7 @@ private:
     void zacniHru();
     void vykresliPlochu();
     bool urobTah();
+    bool kontrolaTahu(int x, int y);
 public:
     Application();
     ~Application();
