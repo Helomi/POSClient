@@ -5,19 +5,20 @@
 #include "../Headers/Application.h"
 
 Application::Application() {
-    vytvorSpojenie();
-    zadajMeno();
+    while (!vytvorSpojenie())
+        sleep(2);
     uvod();
 }
 
-void Application::vytvorSpojenie() {
-    string ip = menu->ziskanieIP();
-    string port = menu->ziskaniePort();
+bool Application::vytvorSpojenie() {
+    string ip = menu->zadajIP();
+    string port = menu->zadajPort();
     server = gethostbyname(ip.c_str());
     if (server == NULL)
     {
-        fprintf(stderr, "Error, no such host\n");
-        //exit(0);
+        cout << "Chyba: Na zvolenej adrese nič nebeží!\n";
+        cout << "Skús to znova\n";
+        return false;
     }
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
@@ -33,29 +34,19 @@ void Application::vytvorSpojenie() {
     if (sockfd < 0)
 
     {
-        perror("Error creating socket");
-        //exit(0);
+        cout << "Chyba: Pri tvorení socketu došlo k chybe!\n";
+        cout << "Skús to znova\n";
+        return false;
     }
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
     {
-        perror("Error connecting to socket");
-        //exit(0);
+        cout << "Chyba: Pri pokuse naviazať spojenie so serverom došlo k chybe!\n";
+        cout << "Skús to znova\n";
+        return false;
     }
-}
-
-void Application::zadajMeno() {
-    printf("Zadaj meno uživateľa: ");
-    string meno;
-    while (meno.size() < 5) {
-        getline(cin, meno);
-        if (meno.size() < 5) {
-            system("clear");
-            printf("Tvoje meno je moc krátke, minimálne 5 znakov!\n");
-            printf("Zadaj meno uživateľa: ");
-        }
-    }
-    odosliSpravu(meno);
+    odosliSpravu(menu->zadajMeno());
+    return true;
 }
 
 void Application::ukonciAplikaciu() {

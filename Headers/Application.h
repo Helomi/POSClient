@@ -40,7 +40,7 @@ private:
     bool zalozHru();
     void ukonciAplikaciu();
     void zadajMeno();
-    void vytvorSpojenie();
+    bool vytvorSpojenie();
     bool pripojenieDoHry();
     void uvod();
     void odosliSpravu(string sprava);
