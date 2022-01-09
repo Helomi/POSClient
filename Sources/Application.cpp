@@ -4,22 +4,21 @@
 
 #include "../Headers/Application.h"
 
-
 Application::Application() {
-    vytvorSpojenie();
-    zadajMeno();
+    while (!vytvorSpojenie())
+        sleep(2);
     uvod();
-    zacniHru();
 }
 
-void Application::vytvorSpojenie() {
-    string ip = menu->ziskanieIP();
-    string port = menu->ziskaniePort();
+bool Application::vytvorSpojenie() {
+    string ip = menu->zadajIP();
+    string port = menu->zadajPort();
     server = gethostbyname(ip.c_str());
     if (server == NULL)
     {
-        fprintf(stderr, "Error, no such host\n");
-        exit(0);
+        cout << "Chyba: Na zvolenej adrese nič nebeží!\n";
+        cout << "Skús to znova\n";
+        return false;
     }
 
     bzero((char*)&serv_addr, sizeof(serv_addr));
@@ -35,41 +34,29 @@ void Application::vytvorSpojenie() {
     if (sockfd < 0)
 
     {
-        perror("Error creating socket");
-        exit(0);
+        cout << "Chyba: Pri tvorení socketu došlo k chybe!\n";
+        cout << "Skús to znova\n";
+        return false;
     }
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
     {
-        perror("Error connecting to socket");
-        exit(0);
+        cout << "Chyba: Pri pokuse naviazať spojenie so serverom došlo k chybe!\n";
+        cout << "Skús to znova\n";
+        return false;
     }
-}
-
-void Application::zadajMeno() {
-    printf("Zadaj meno uživateľa: ");
-    string meno;
-    while (meno.size() < 5) {
-        getline(cin, meno);
-        if (meno.size() < 5) {
-            system("clear");
-            printf("Tvoje meno je moc krátke, minimálne 5 znakov!\n");
-            printf("Zadaj meno uživateľa: ");
-        }
-    }
-    odosliSpravu(meno);
+    odosliSpravu(menu->zadajMeno());
+    return true;
 }
 
 void Application::ukonciAplikaciu() {
-    delete menu;
     close(sockfd);
     exit(0);
 }
 
 bool Application::zalozHru() {
     odosliSpravu(menu->vytvorenieLobby());
-    strcpy(buffer, primiSpravu());
-    string pomocna = buffer;
+    string pomocna = primiSpravu();
     if (pomocna.compare("OK") == 0)
     {
         cout << "Server bol úspešne vytvorený\n";
@@ -83,9 +70,9 @@ bool Application::zalozHru() {
 bool Application::pripojenieDoHry() {
     list<string> zoznamLobby;
     Utilities utilities;
-    string pomocna = "DZL"; //DZL = Daj zoznam lobby
-    odosliSpravu(pomocna);
-    strcpy(buffer, primiSpravu());
+    string pomocna;
+    odosliSpravu("DZL");
+    primiSpravu();
     while (buffer) {
         pomocna = buffer;
         stringstream check1(pomocna);
@@ -100,9 +87,7 @@ bool Application::pripojenieDoHry() {
         if (pomocna2.compare("END") == 0) {
             break;
         }
-        string pomocna = "OK";
-        odosliSpravu(pomocna);
-        strcpy(buffer, primiSpravu());
+        primiSpravu();
     }
 
 
@@ -111,24 +96,29 @@ bool Application::pripojenieDoHry() {
     cout << "#   VYPIS LOBBY   #\n";
     cout << "###################\n";
     if (zoznamLobby.size() == 0) {
-        cout << "Nie je založená žiadna lobby";
+        cout << "Nie je založená žiadna lobby!\n";
+        sleep(1);
         return false;
     } else {
         list <string> :: iterator lobby;
         int i = 1;
         for (lobby = zoznamLobby.begin(); lobby != zoznamLobby.end(); lobby++)
         {
-            cout << i << ". " << *lobby << "\n";
+            if (lobby->find("#") != std::string::npos) {
+                cout << i << ". " << *lobby << " | Status: Hra prebieha\n";
+            } else {
+                cout << i << ". " << *lobby << " | Status: Čakám na protihráča\n";
+            }
             i++;
         }
+        cout << "\n";
         cout << i << ". Návrat do hlavného menu\n";
     }
     cout << "Vyber si lobby kam sa chceš pripojiť.\n";
     int vyber = utilities.zadajCislo(1,zoznamLobby.size()+1);
     cout << "Vybral si: " << vyber << "\n";
     if (vyber == zoznamLobby.size()+1) {
-        pomocna = "QUI";
-        odosliSpravu(pomocna);
+        odosliSpravu("QUI");
         return false;
     }
     pomocna = "JOI|" + to_string(vyber);
@@ -142,6 +132,7 @@ void Application::uvod() {
         case 1:
             if (zalozHru()) {
                 cout << "Čakáš na pripojenie 2. hráča\n";
+                zacniHru();
             } else {
                 cout << "Server sa nepodarilo vytvoriť!\n";
                 sleep(2);
@@ -151,6 +142,8 @@ void Application::uvod() {
         case 2:
             if (!pripojenieDoHry()) {
                 uvod();
+            } else {
+                zacniHru();
             }
             break;
         case 3:
@@ -166,7 +159,6 @@ void Application::odosliSpravu(string sprava) {
     if (n < 0)
     {
         perror("Error writing to socket");
-        exit(0);
     }
 }
 
@@ -176,7 +168,6 @@ char* Application::primiSpravu() {
     if (n < 0)
     {
         perror("Error reading from socket");
-        exit(0);
     }
     return buffer;
 }
@@ -197,19 +188,23 @@ void Application::zacniHru() {
                 mapa[i][j] = ' ';
             }
         }
-        vykresliPlochu();
-        while (urobTah())
-        {
+        do {
             vykresliPlochu();
         }
+        while (urobTah());
+    } else if (pomocna2.compare("NO") == 0) {
+        cout << "Server ťa odmietnul pripojiť k tejto lobby\n";
+        sleep(2);
+        uvod();
+    } else if (pomocna2.compare("OOT") == 0){ //OOT - Out of time
+        cout << "Čas na pripojenie 2. hráča vypršal. Server sa uzavrel\n";
     } else {
-        cout << "Dostal som nejakú neznámu správu???" << pomocna << "\n";
+        cout << "Dostal som nejakú neznámu správu???" << pomocna2 << "\n";
     }
 }
 
 void Application::vykresliPlochu() {
     system("clear");
-    //cout << "Vykreslujem mapu o veľkosti" << velkostMapy << "x" << velkostMapy << "\n";
     cout << "|   |   | X | --";
     for (int i = 0; i < velkostMapy-2; ++i) {
         cout << "----";
@@ -247,14 +242,23 @@ bool Application::urobTah() {
     cout << "Dostal som správu " << pomocna << "\n";
     getline(check1, pomocna2, '|');
     if (pomocna2.compare("DTN") == 0) {
-        cout << "Zadaj X-ovú os:\n";
-        x = utilities.zadajCislo(0, velkostMapy-1);
-        cout << "Zadaj Y-ovú os:\n";
-        y = utilities.zadajCislo(0, velkostMapy-1);
+        tcflush(0,TCIFLUSH);
+        while(true) {
+            cout << "Zadaj X-ovú os:\n";
+            x = utilities.zadajCislo(0, velkostMapy-1);
+            cout << "Zadaj Y-ovú os:\n";
+            y = utilities.zadajCislo(0, velkostMapy-1);
+            if (kontrolaTahu(x, y)) {
+                break;
+            } else {
+                cout << "Toto políčko už je obsadené skús to ešte raz.\n";
+            }
+        }
         odosliSpravu("UPD|" + to_string(x) + "|" + to_string(y));
         mapa[y][x] = 'O';
     } else if (pomocna2.compare("DTU") == 0)
     {
+        tcflush(0,TCIFLUSH);
         getline(check1, pomocna2, '|');
         x = stoi(pomocna2);
         getline(check1, pomocna2, '|');
@@ -262,10 +266,17 @@ bool Application::urobTah() {
         mapa[y][x] = 'X';
         vykresliPlochu();
         cout << "Dostal som správu " << pomocna << "\n";
-        cout << "Zadaj X-ovú os:\n";
-        x = utilities.zadajCislo(0, velkostMapy-1);
-        cout << "Zadaj Y-ovú os:\n";
-        y = utilities.zadajCislo(0, velkostMapy-1);
+        while(true) {
+            cout << "Zadaj X-ovú os:\n";
+            x = utilities.zadajCislo(0, velkostMapy-1);
+            cout << "Zadaj Y-ovú os:\n";
+            y = utilities.zadajCislo(0, velkostMapy-1);
+            if (kontrolaTahu(x, y)) {
+                break;
+            } else {
+                cout << "Toto políčko už je obsadené skús to ešte raz.\n";
+            }
+        }
         mapa[y][x] = 'O';
         odosliSpravu("UPD|" + to_string(x) + "|" + to_string(y));
     } else if (pomocna2.compare("LOS") == 0) {
@@ -280,7 +291,40 @@ bool Application::urobTah() {
     } else if (pomocna2.compare("WIN") == 0) {
         cout << "Vyhral si EZCLAP\n";
         return false;
+    } else if (pomocna2.compare("DRW") == 0) {
+        cout << "Remíza.. došli vám políčka borci :D\n";
+        return false;
+    } else if (pomocna2.compare("DRWU") == 0) {
+        getline(check1, pomocna2, '|');
+        x = stoi(pomocna2);
+        getline(check1, pomocna2, '|');
+        y = stoi(pomocna2);
+        mapa[y][x] = 'X';
+        vykresliPlochu();
+        cout << "Remíza.. došli vám políčka borci :D\n";
+        return false;
+    } else if (pomocna2.compare("QUT") == 0) {
+        cout << "Server stratil spojenie so súperom :/\nHra sa preto ukončí\n";
+        return false;
+    } else {
+        cout << "Nastala neočakávaná chyba!\nHra sa ukončí\n";
+        return false;
     }
     return true;
+}
+
+Application::~Application() {
+    for (int i = 0; i < velkostMapy; ++i) {
+        delete[] mapa[i];
+    }
+    delete[] mapa;
+    delete menu;
+}
+
+bool Application::kontrolaTahu(int x, int y) {
+    if (mapa[y][x] == ' ') {
+        return true;
+    }
+    return false;
 }
 

@@ -23,7 +23,7 @@ int Vypisy::vypisMenu() {
 
 
 
-string Vypisy::ziskanieIP() {
+string Vypisy::zadajIP() {
     system("clear");
     string ip;
     cout << "Zadaj IP: ";
@@ -31,7 +31,7 @@ string Vypisy::ziskanieIP() {
     return ip;
 }
 
-string Vypisy::ziskaniePort() {
+string Vypisy::zadajPort() {
     string port;
     cout << "Zadaj Port: ";
     getline(cin, port);
@@ -64,4 +64,23 @@ string Vypisy::vytvorenieLobby() {
             break;
     }
     return "CRT|" + navrat + "|" + to_string(vyber);
+}
+
+string Vypisy::zadajMeno() {
+    printf("Zadaj meno uživateľa: ");
+    string meno;
+    while (meno.size() < 5 || meno.size() > 50) {
+        getline(cin, meno);
+        if (meno.size() < 5) {
+            system("clear");
+            printf("Tvoje meno je moc krátke, minimálne 5 znakov!\n");
+            printf("Zadaj meno uživateľa: ");
+        }
+        if (meno.size() > 50) {
+            system("clear");
+            printf("Tvoje meno je moc dlhé, maximálne 50 znakov!\n");
+            printf("Zadaj meno uživateľa: ");
+        }
+    }
+    return meno;
 }

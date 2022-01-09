@@ -19,9 +19,9 @@ public:
     Vypisy();
     int vypisMenu();
     string vytvorenieLobby();
-    string ziskanieIP();
-    string ziskaniePort();
-
+    string zadajIP();
+    string zadajPort();
+    string zadajMeno();
 };
 
 

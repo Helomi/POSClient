@@ -11,11 +11,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0229b1b7-f2c5-4d4f-ba38-bad9a75d929b" name="Changes" comment="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="0229b1b7-f2c5-4d4f-ba38-bad9a75d929b" name="Changes" comment="V 0.1.2.6 Vyčistenie kódu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Headers/Application.h" beforeDir="false" afterPath="$PROJECT_DIR$/Headers/Application.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Application.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Application.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Vypisy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Vypisy.cpp" afterDir="false" />
@@ -32,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="refactor" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,7 +62,7 @@
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -110,6 +107,13 @@
       <workItem from="1640975889208" duration="8816000" />
       <workItem from="1641032204043" duration="19653000" />
       <workItem from="1641126437150" duration="4733000" />
+      <workItem from="1641154900906" duration="19000" />
+      <workItem from="1641165010720" duration="1614000" />
+      <workItem from="1641215169862" duration="621000" />
+      <workItem from="1641482488007" duration="6837000" />
+      <workItem from="1641564624139" duration="7961000" />
+      <workItem from="1641634744592" duration="3930000" />
+      <workItem from="1641727985896" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="V 0.1.1 Refactoring&#10;[#] Vyčistenie kódu od duplicít">
       <created>1640626515183</created>
@@ -125,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641134355369</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="V 0.1.2.5 Bugfix a menší refactor&#10;[#] zadajMeno() -&gt; vypisy.cpp&#10;[#] ziskanieIP() -&gt; zadajIP()&#10;[#] ziskaniePort() -&gt; zadajPort()&#10;[#] Ak nezadá správnu IP a port program sa neukonČí ale popýta si znovu IP aj port">
+      <created>1641410974381</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1641410974381</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,7 +153,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Update" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
@@ -151,14 +162,23 @@
             </State>
           </value>
         </entry>
+        <entry key="f05d5e41-eb51-4cbf-8b0e-3e97d37a555f">
+          <value>
+            <State />
+          </value>
+        </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/Nový priečinok" />
+    </ignored-roots>
     <MESSAGE value="V 0.1.1 Refactoring&#10;[#] Vyčistenie kódu od duplicít" />
     <MESSAGE value="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky" />
-    <option name="LAST_COMMIT_MESSAGE" value="V 0.1.2 Komunikácia&#10;[+] Pridanie komunikácie medzi serverom a clientom&#10;[+] Pridanie výhernej obrazovky" />
+    <MESSAGE value="V 0.1.2.5 Bugfix a menší refactor&#10;[#] zadajMeno() -&gt; vypisy.cpp&#10;[#] ziskanieIP() -&gt; zadajIP()&#10;[#] ziskaniePort() -&gt; zadajPort()&#10;[#] Ak nezadá správnu IP a port program sa neukonČí ale popýta si znovu IP aj port" />
+    <option name="LAST_COMMIT_MESSAGE" value="V 0.1.2.5 Bugfix a menší refactor&#10;[#] zadajMeno() -&gt; vypisy.cpp&#10;[#] ziskanieIP() -&gt; zadajIP()&#10;[#] ziskaniePort() -&gt; zadajPort()&#10;[#] Ak nezadá správnu IP a port program sa neukonČí ale popýta si znovu IP aj port" />
   </component>
 </project>

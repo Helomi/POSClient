@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <cstdio>
+#include <termios.h>
 #include <cstdlib>
 #include <cstring>
 #include <unistd.h>
@@ -38,8 +39,7 @@ private:
 
     bool zalozHru();
     void ukonciAplikaciu();
-    void zadajMeno();
-    void vytvorSpojenie();
+    bool vytvorSpojenie();
     bool pripojenieDoHry();
     void uvod();
     void odosliSpravu(string sprava);
@@ -47,8 +47,10 @@ private:
     void zacniHru();
     void vykresliPlochu();
     bool urobTah();
+    bool kontrolaTahu(int x, int y);
 public:
     Application();
+    ~Application();
 };
 
 
