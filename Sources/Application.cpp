@@ -70,8 +70,8 @@ bool Application::zalozHru() {
 bool Application::pripojenieDoHry() {
     list<string> zoznamLobby;
     Utilities utilities;
-    string pomocna = "DZL"; //DZL = Daj zoznam lobby
-    odosliSpravu(pomocna);
+    string pomocna;
+    odosliSpravu("DZL");
     primiSpravu();
     while (buffer) {
         pomocna = buffer;
@@ -118,8 +118,7 @@ bool Application::pripojenieDoHry() {
     int vyber = utilities.zadajCislo(1,zoznamLobby.size()+1);
     cout << "Vybral si: " << vyber << "\n";
     if (vyber == zoznamLobby.size()+1) {
-        pomocna = "QUI";
-        odosliSpravu(pomocna);
+        odosliSpravu("QUI");
         return false;
     }
     pomocna = "JOI|" + to_string(vyber);
@@ -160,7 +159,6 @@ void Application::odosliSpravu(string sprava) {
     if (n < 0)
     {
         perror("Error writing to socket");
-        //exit(0);
     }
 }
 
@@ -170,7 +168,6 @@ char* Application::primiSpravu() {
     if (n < 0)
     {
         perror("Error reading from socket");
-        //exit(0);
     }
     return buffer;
 }
@@ -191,23 +188,23 @@ void Application::zacniHru() {
                 mapa[i][j] = ' ';
             }
         }
-        vykresliPlochu();
-        while (urobTah())
-        {
+        do {
             vykresliPlochu();
         }
+        while (urobTah());
     } else if (pomocna2.compare("NO") == 0) {
         cout << "Server ťa odmietnul pripojiť k tejto lobby\n";
         sleep(2);
         uvod();
+    } else if (pomocna2.compare("OOT") == 0){ //OOT - Out of time
+        cout << "Čas na pripojenie 2. hráča vypršal. Server sa uzavrel\n";
     } else {
-        cout << "Dostal som nejakú neznámu správu???" << pomocna << "\n";
+        cout << "Dostal som nejakú neznámu správu???" << pomocna2 << "\n";
     }
 }
 
 void Application::vykresliPlochu() {
     system("clear");
-    //cout << "Vykreslujem mapu o veľkosti" << velkostMapy << "x" << velkostMapy << "\n";
     cout << "|   |   | X | --";
     for (int i = 0; i < velkostMapy-2; ++i) {
         cout << "----";

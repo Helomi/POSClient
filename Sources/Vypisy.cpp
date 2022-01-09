@@ -69,11 +69,16 @@ string Vypisy::vytvorenieLobby() {
 string Vypisy::zadajMeno() {
     printf("Zadaj meno uživateľa: ");
     string meno;
-    while (meno.size() < 5) {
+    while (meno.size() < 5 || meno.size() > 50) {
         getline(cin, meno);
         if (meno.size() < 5) {
             system("clear");
             printf("Tvoje meno je moc krátke, minimálne 5 znakov!\n");
+            printf("Zadaj meno uživateľa: ");
+        }
+        if (meno.size() > 50) {
+            system("clear");
+            printf("Tvoje meno je moc dlhé, maximálne 50 znakov!\n");
             printf("Zadaj meno uživateľa: ");
         }
     }

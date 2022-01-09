@@ -39,7 +39,6 @@ private:
 
     bool zalozHru();
     void ukonciAplikaciu();
-    void zadajMeno();
     bool vytvorSpojenie();
     bool pripojenieDoHry();
     void uvod();
